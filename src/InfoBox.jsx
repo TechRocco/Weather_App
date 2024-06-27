@@ -5,26 +5,16 @@ import Typography from '@mui/material/Typography';
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import AcUnitIcon from '@mui/icons-material/AcUnit';
+import { titleCase } from "title-case";
 import './infoBox.css'
 
-export default function InfoBox() {
+export default function InfoBox( {info} ) {
     let imgUrl = {
-        rainy: "https://media.istockphoto.com/id/1257951336/photo/transparent-umbrella-under-rain-against-water-drops-splash-background-rainy-weather-concept.jpg?s=2048x2048&w=is&k=20&c=oCeUC-IkL0PeNBE1KwDUHBWw692n3T4T6I-usYtX_Qc=",
+        rainy: "https://images.unsplash.com/photo-1558409057-bbe679023136?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8cmFpbmluZ3xlbnwwfHwwfHx8MA%3D%3D",
         cold: "https://images.unsplash.com/photo-1453306458620-5bbef13a5bca?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHdpbnRlcnxlbnwwfHwwfHx8MA%3D%3D",
         hot: "https://images.unsplash.com/uploads/14121010130570e22bcdf/e1730efe?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     };
-    let info = {
-        city: "Delhi",
-        temp: 34.96,
-        tempMin: 34.96,
-        tempMax: 34,
-        humidity: 63,
-        feelsLike: 41.96,
-        weather: "haze",
-        pressure: 1000,
-        wind_speed: 3.09, //in km/h
-        wind_direction: "NorthEast"
-    }
+    
     return (<div>
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia
@@ -34,7 +24,7 @@ export default function InfoBox() {
             />
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
-                    {info.city} {(info.humidity > 80) ? <ThunderstormIcon /> : (info.temp > 15) ? <WbSunnyIcon /> : <AcUnitIcon />}
+                    {titleCase(info.city)} {(info.humidity > 80) ? <ThunderstormIcon /> : (info.temp > 15) ? <WbSunnyIcon /> : <AcUnitIcon />}
                 </Typography>
                 <Typography variant="body2" color="text.secondary" component={"span"}>
                     <div className='container'>

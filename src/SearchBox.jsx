@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { convertDegreesToDirection8 } from './helper';
 
 
-export default function SearchBox(){
+
+export default function SearchBox({updateWeather, isError}){
     let [city, setCity] = useState("");
 
     let API_URL = "https://api.openweathermap.org/data/2.5/weather";
@@ -12,10 +13,12 @@ export default function SearchBox(){
     // console.log(import.meta.env.VITE_WEATHER_API_KEY);
 
     let getWeatherInfo = async() => {
+        try{
         let response = await fetch(`${API_URL}?q=${city}&appid=${API_KEY}&units=metric`);
         let jsonResponse = await response.json();
         console.log(jsonResponse);
         let result = {
+            city: city,
             temp: jsonResponse.main.temp,
             tempMin: jsonResponse.main.temp_min,
             tempMax: jsonResponse.main.temp_max,
@@ -28,6 +31,10 @@ export default function SearchBox(){
         };
         
         console.log(result);
+        return result;
+    }catch(err){
+        throw err;
+    }
     };
 
 
@@ -35,16 +42,21 @@ export default function SearchBox(){
         setCity(event.target.value);
     }
 
-    let handleSubmit = (event) => {
+    let handleSubmit = async (event) => {
+        try{
         event.preventDefault();
         console.log(city);
         setCity("");
-        getWeatherInfo();
+        let weather = await getWeatherInfo();
+        updateWeather(weather);
+        }
+        catch(err){
+            isError(true);
+        }
     }
 
     return(<div>
-        <h2>Search for the Weather</h2>
-         
+
         <form onSubmit={handleSubmit}>
         <TextField id="city" 
         label="City" 
@@ -56,5 +68,6 @@ export default function SearchBox(){
         <br /><br />
         <Button variant="contained" type='submit'>Search</Button>
         </form>
+
         </div>)
 }
